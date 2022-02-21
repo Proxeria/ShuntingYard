@@ -172,5 +172,26 @@ int main() {
 	  iss >> subs;
 	  cout << "Substring: " << subs << endl;
 	} while (iss);
+
+      //tokenizes string into a vector
+      string line = "this is a test string";
+
+      // Vector of string to save tokens
+      vector <string> tokens;
+
+      // stringstream class check1
+      stringstream check1(line);
+
+      string intermediate;
+
+      // Tokenizing w.r.t. space ' '
+      while(getline(check1, intermediate, ' '))
+	{
+	  tokens.push_back(intermediate);
+	}
+
+      // Printing the token vector
+      for(int i = 0; i < tokens.size(); i++)
+	cout << tokens[i] << '\n';
       
 }
