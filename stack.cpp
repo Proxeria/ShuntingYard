@@ -23,7 +23,12 @@ string Stack::pop(void) {
 }
 
 string Stack::peek(void) {
-  return "";
+  if (top == NULL) {
+    return "";
+  }
+  else {
+    return top->getToken();
+  }
 }
 
  
