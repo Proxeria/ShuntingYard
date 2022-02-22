@@ -3,6 +3,7 @@
 #include<sstream>
 #include<iterator>
 #include<string>
+#include "stack.h"
 
 using namespace std;
 
@@ -90,8 +91,31 @@ void shuntingYard(std::vector<std::string> tokens) {
 //     pop the operator from the operator stack onto the output queue
 }
 
+void stackTest(void) {
+  Stack test;
+  cout << "peeking on empty" << endl;
+  cout << test.peek() << endl;
+  cout << "pushing 1" << endl;
+  test.push("1");
+  cout << "peeking 1" << endl;
+  cout << test.peek() << endl;
+  test.push("2");
+  cout << "peeking 2" << endl;
+  cout << test.peek() << endl;
+  cout << "popping 2" << endl;
+  cout << test.pop() << endl;
+  cout << "peeking 1" << endl;
+  cout << test.peek() << endl;
+  cout << "popping 1" << endl;
+  cout << test.pop() << endl;
+  cout << "popping empty" << endl;
+  cout << test.pop() << endl;
+  cout << "didnt explode" << endl;
+  
+}
 
 int main() {
+  stackTest();
   string inStr;
   cout << "Put stuff here: " << endl;
   getline(cin, inStr);

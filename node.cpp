@@ -5,8 +5,10 @@
 using namespace std;
 
 Node::Node(string token){//constructor class
+  //  cout << __FILE__ <<  ":" <<  __LINE__ << " " << "constructing node" << endl;
   m_token = token; //copies the passed in student pointer parameter into the variable titled "kid"
   next = NULL;//sets the next node to null
+  // cout << __FILE__ <<  ":" <<  __LINE__ << " " << "constructe   node" << endl;
 }
 
 void Node::setNext(Node* node){//sets the next node to be the node passed in as a parameter
