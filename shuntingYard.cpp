@@ -4,6 +4,7 @@
 #include<iterator>
 #include<string>
 #include "stack.h"
+#include "queue.h"
 
 using namespace std;
 
@@ -110,12 +111,40 @@ void stackTest(void) {
   cout << test.pop() << endl;
   cout << "popping empty" << endl;
   cout << test.pop() << endl;
-  cout << "didnt explode" << endl;
-  
+  cout << "didnt explode" << endl; 
+}
+
+void queueTest(void) {
+  Queue test;
+  if (test.isEmpty()) {
+    cout << "queue is empty" << endl;
+  }
+  cout << "dequeueing from empty" << endl;
+  cout << test.dequeue() << endl;
+  cout << "enqueue 1" << endl;
+  test.enqueue("1");
+  if (test.isEmpty()) {
+    cout << "queue is empty, shouldnt be!!" << endl;
+  }
+  cout << "dequeueing 1" << endl;
+  cout << test.dequeue() << endl;
+  if (test.isEmpty()) {
+    cout << "queue is empty, SHOULD be" << endl;
+  }
+  cout << "endqueueing 2" << endl;
+  test.enqueue("2");
+  cout << "enqueueing 3" << endl;
+  test.enqueue("3");
+  cout << "dequeueing 2" << endl;
+  cout << test.dequeue() << endl;
+  cout << "dequeueing 3" << endl;
+  cout << test.dequeue() << endl;
+  cout << "didnt explode" << endl; 
 }
 
 int main() {
   stackTest();
+  queueTest();
   string inStr;
   cout << "Put stuff here: " << endl;
   getline(cin, inStr);
