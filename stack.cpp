@@ -19,7 +19,16 @@ void Stack::push(string s) {
 }
 
 string Stack::pop(void) {
-  return "";
+  if (top == NULL) {
+    return "";
+  }
+  else {
+    Node* tempTop = top;
+    top = top->getNext();
+    string topStr = tempTop->getToken();
+    delete tempTop;
+    return topStr;
+  }
 }
 
 string Stack::peek(void) {
