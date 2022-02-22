@@ -61,7 +61,9 @@ void shuntingYard(std::vector<std::string> tokens) {
 //             of the operator stack, and (o2 has greater precedence than o1
 //             or they have the same precedence and o1 is left-associative)
 //         ):
+      while (false) {
 //             pop o2 from the operator stack into the output queue
+      }
 //         push o1 onto the operator stack
     }
     
