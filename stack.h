@@ -9,13 +9,13 @@
 using namespace std;
 
 class Stack{//class declaration
- public: //all public functions
+public: //all public functions
   Stack(void); //constructor that stores a string
   void push(string s);
   string pop(void);
   string peek(void);
- private: //all private variables
+private: //all private variables
   Node* top;
- };
+};
 
 #endif
