@@ -49,20 +49,22 @@ bool isLParen(string s) {
 
 //wikipedia shuntingYard algorithm
 void shuntingYard(std::vector<std::string> tokens) {
+  Stack opStack;
+  Queue outQueue;
 //     while there are tokens to be read
   for (string  thisToken: tokens) {
 //     if the token is:
 //     - a number:
     if (isNumber(thisToken)) {
-//         put it into the output queue
+     outQueue.enqueue(thisToken);
     }
 //     - an operator o1:
     else if (isOper(thisToken)) {
-//         while (
+      while () {
 //             there is an operator o2 other than the left parenthesis at the top
 //             of the operator stack, and (o2 has greater precedence than o1
 //             or they have the same precedence and o1 is left-associative)
-//         ):
+      }
       while (false) {
 //             pop o2 from the operator stack into the output queue
       }
@@ -71,7 +73,7 @@ void shuntingYard(std::vector<std::string> tokens) {
     
 //     - a left parenthesis (i.e. "("):
     else if (isLParen(thisToken)) {
-//         push it onto the operator stack
+      opStack.push(thisToken);
     }
 //     - a right parenthesis (i.e. ")"):
     else if (isRParen(thisToken)) {
