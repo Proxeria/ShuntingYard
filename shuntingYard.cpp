@@ -69,6 +69,7 @@ void shuntingYard(std::vector<std::string> tokens) {
 //             pop o2 from the operator stack into the output queue
       }
 //         push o1 onto the operator stack
+     opStack.push(thisToken);
     }
     
 //     - a left parenthesis (i.e. "("):
