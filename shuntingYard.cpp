@@ -34,16 +34,71 @@ bool isNumber(string s)
   return true;
 }
 
-bool isOper(string s) {
+bool isOper(string thisToken) {
+  if (thisToken == "+" || thisToken == "-" || thisToken == "*" || thisToken == "/") {
+    return true;
+  }
   return false;
 }
 
 bool isRParen(string s) {
-  return false;
+  return (s != "" && s == ")");
 }
 
 bool isLParen(string s) {
-  return false;
+  return (s != "" && s == "(");
+}
+
+//compares preceadence of 2 ops
+//returns -1 if left has higher precadence than the right or 1 if vise versa or 0 if same
+int opHigher(string left, string right) {
+  switch (left[0]) {
+  case '(' :
+  case ')' :
+    switch (right[0]) {
+    case '(' :
+    case ')' :
+      return 0;
+    default :
+      return -1;
+    }
+    break;
+  case '*' :
+  case '/' :
+    switch (right[0]) {
+    case '(' :
+    case ')' :
+      return 1;
+    case '*' :
+    case '/' :
+      return 0;
+    default :
+      return -1;
+    }
+    break;
+  case '+' :
+  case '-' :
+  default :
+    switch (right[0]) {
+    case '(' :
+    case ')' :
+    case '*' :
+    case '/' :
+      return 1;
+    default :
+      return 0;
+    }
+    break;
+  }
+}
+
+bool isLAssoc(string opStr) {
+  if (opStr != "(" && opStr != ")") {
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 
@@ -51,50 +106,75 @@ bool isLParen(string s) {
 void shuntingYard(std::vector<std::string> tokens) {
   Stack opStack;
   Queue outQueue;
-//     while there are tokens to be read
+  string tempToken;
+  // while there are tokens to be read
   for (string  thisToken: tokens) {
-//     if the token is:
-//     - a number:
+    cout << "This token is: " << thisToken << endl;
+    // if the token is:
+    // - a number:
     if (isNumber(thisToken)) {
-     outQueue.enqueue(thisToken);
+      cout << "number" << endl;
+      outQueue.enqueue(thisToken);
     }
-//     - an operator o1:
+    // - an operator o1:
     else if (isOper(thisToken)) {
-      while () {
-//             there is an operator o2 other than the left parenthesis at the top
-//             of the operator stack, and (o2 has greater precedence than o1
-//             or they have the same precedence and o1 is left-associative)
+      cout << "Token is: " << thisToken << " Top of opStack: " << opStack.peek() << endl;
+      // while there is an operator o2 other than the left parenthesis at the top
+      // of the operator stack, and (o2 has greater precedence than o1
+      // or they have the same precedence and o1 is left-associative)
+      while ((isOper(opStack.peek()) && (opStack.peek() != "(")) &&
+	     ((opHigher(opStack.peek(), thisToken) == 1) ||
+	      ((opHigher(opStack.peek(), thisToken) == 0) && isLAssoc(thisToken)))) {
+	// pop o2 from the operator stack into the output queue
+	tempToken = opStack.pop();
+	outQueue.enqueue(tempToken);
       }
-      while (false) {
-//             pop o2 from the operator stack into the output queue
-      }
-//         push o1 onto the operator stack
-     opStack.push(thisToken);
+      // push o1 onto the operator stack
+      opStack.push(thisToken);
     }
     
-//     - a left parenthesis (i.e. "("):
+    // - a left parenthesis (i.e. "("):
     else if (isLParen(thisToken)) {
       opStack.push(thisToken);
     }
-//     - a right parenthesis (i.e. ")"):
+    // - a right parenthesis (i.e. ")"):
     else if (isRParen(thisToken)) {
-//         while the operator at the top of the operator stack is not a left parenthesis:
-//             {assert the operator stack is not empty}
-// 	    // If the stack runs out without finding a left parenthesis, then there are mismatched parentheses.
-// pop the operator from the operator stack into the output queue
-//         {assert there is a left parenthesis at the top of the operator stack}
-//         pop the left parenthesis from the operator stack and discard it
-//         if there is a function token at the top of the operator stack, then:
-//             pop the function from the operator stack into the output queue
+      // while the operator at the top of the operator stack is not a left parenthesis:
+      while (!isLParen(opStack.peek())) {
+	// {assert the operator stack is not empty}
+	// If the stack runs out without finding a left parenthesis, then there are mismatched parentheses.
+	assert(opStack.peek() != "");
+	// pop the operator from the operator stack into the output queue
+	tempToken = opStack.pop();
+	outQueue.enqueue(tempToken);
+      }
+      // {assert there is a left parenthesis at the top of the operator stack}
+      assert(isLParen(opStack.peek()));
+      // pop the left parenthesis from the operator stack and discard it
+      opStack.pop();
     }
   }
-// //After the while loop, pop the remaining items from the operator stack into the output queue.
-// while there are tokens on the operator stack:
-// //If the operator token on the top of the stack is a parenthesis, then there are mismatched parentheses.
-// {assert the operator on top of the stack is not a (left) parenthesis}
-//     pop the operator from the operator stack onto the output queue
-}
+  // //After the while loop, pop the remaining items from the operator stack into the output queue.
+  // while there are tokens on the operator stack:
+  cout << "after while" << endl;
+  while (opStack.peek() != "") {
+    cout << "top of stack: " << opStack.peek() << endl;
+    // //If the operator token on the top of the stack is a parenthesis, then there are mismatched parentheses.
+    // {assert the operator on top of the stack is not a (left) parenthesis}
+    assert(!isLParen(opStack.peek()));
+    // pop the operator from the operator stack onto the output queue
+    tempToken = opStack.pop();
+    outQueue.enqueue(tempToken);
+  }
 
+  // dump queue
+  cout << "out queue: ";
+  while (!outQueue.isEmpty()) {
+    cout << outQueue.dequeue() << " ";
+  }
+  cout << endl;
+}
+    
 void stackTest(void) {
   Stack test;
   cout << "peeking on empty" << endl;
@@ -157,5 +237,8 @@ int main() {
   for (string  thisToken: testVec) {
     cout << thisToken << endl;
   }
+  cout << "yard" << endl;
+  shuntingYard(testVec);
+
   return 0;
 }
